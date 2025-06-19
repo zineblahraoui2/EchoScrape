@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 start = time()
 
 urls = []
-with open("links.csv", newline="") as csvfile:
+with open("example.csv", newline="") as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         urls.append(row["links"])
@@ -21,7 +21,6 @@ contents = []
 def fetch_post(url):
     domain = urlparse(url).netloc
     response = requests.get(url)
-
     soup = BeautifulSoup(response.text, "html.parser")
 
     post = {"url": url}
@@ -50,7 +49,7 @@ for task in as_completed(processes):
     else:
         contents.append(task.result())
 
-with open("contents.json", "w") as f:
+with open("contents.json", "w",encoding="utf-8") as f:
     json.dump(contents, f, ensure_ascii=False, indent=2)
 
 end = time()
